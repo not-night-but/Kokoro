@@ -10,4 +10,7 @@ class Application {
   void Run();
 };
 
+// To be defined by client
+Application* CreateApplication();
+
 }  // namespace Kokoro
