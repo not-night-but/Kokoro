@@ -1,8 +1,11 @@
 #pragma once
 
+#include "Core.h"
+#include "Events/Event.h"
+
 namespace Kokoro {
 
-  class Application {
+  class KOKORO_API Application {
    public:
     Application();
     virtual ~Application();
@@ -10,7 +13,7 @@ namespace Kokoro {
     void Run();
   };
 
-  // To be defined by client
+  // To be defined in client
   Application* CreateApplication();
 
 }  // namespace Kokoro
