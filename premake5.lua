@@ -23,7 +23,7 @@ project "Kokoro"
   }
 
   includedirs {
-    --"%{prj.name}/vendor/spdlog/include"
+    "%{prj.name}/vendor/spdlog/include"
   }
 
   filter "system:linux"
@@ -64,7 +64,7 @@ project "Sandbox"
   }
 
   includedirs {
-    --"Kokoro/vendor/spdlog/include"
+    "Kokoro/vendor/spdlog/include",
     "Kokoro/src"
   }
 
