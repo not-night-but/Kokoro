@@ -17,6 +17,9 @@ project "Kokoro"
   targetdir ("bin/" .. outputdir .. "/%{prj.name}")
   objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+  pchheader "kopch.h"
+  --if using visual studio at some point, add a pchsource
+
   files {
     "%{prj.name}/src/**.h",
     "%{prj.name}/src/**.cpp"

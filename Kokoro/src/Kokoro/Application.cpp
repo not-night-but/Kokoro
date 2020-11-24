@@ -1,3 +1,4 @@
+#include "kopch.h"
 #include "Application.h"
 
 #include "Kokoro/Events/ApplicationEvent.h"
