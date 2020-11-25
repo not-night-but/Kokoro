@@ -9,14 +9,17 @@ ifndef verbose
 endif
 
 ifeq ($(config),debug)
+  GLFW_config = debug
   Kokoro_config = debug
   Sandbox_config = debug
 
 else ifeq ($(config),release)
+  GLFW_config = release
   Kokoro_config = release
   Sandbox_config = release
 
 else ifeq ($(config),dist)
+  GLFW_config = dist
   Kokoro_config = dist
   Sandbox_config = dist
 
@@ -24,13 +27,19 @@ else
   $(error "invalid configuration $(config)")
 endif
 
-PROJECTS := Kokoro Sandbox
+PROJECTS := GLFW Kokoro Sandbox
 
 .PHONY: all clean help $(PROJECTS) 
 
 all: $(PROJECTS)
 
-Kokoro:
+GLFW:
+ifneq (,$(GLFW_config))
+	@echo "==== Building GLFW ($(GLFW_config)) ===="
+	@${MAKE} --no-print-directory -C Kokoro/vendor/GLFW -f Makefile config=$(GLFW_config)
+endif
+
+Kokoro: GLFW
 ifneq (,$(Kokoro_config))
 	@echo "==== Building Kokoro ($(Kokoro_config)) ===="
 	@${MAKE} --no-print-directory -C Kokoro -f Makefile config=$(Kokoro_config)
@@ -43,6 +52,7 @@ ifneq (,$(Sandbox_config))
 endif
 
 clean:
+	@${MAKE} --no-print-directory -C Kokoro/vendor/GLFW -f Makefile clean
 	@${MAKE} --no-print-directory -C Kokoro -f Makefile clean
 	@${MAKE} --no-print-directory -C Sandbox -f Makefile clean
 
@@ -57,6 +67,7 @@ help:
 	@echo "TARGETS:"
 	@echo "   all (default)"
 	@echo "   clean"
+	@echo "   GLFW"
 	@echo "   Kokoro"
 	@echo "   Sandbox"
 	@echo ""

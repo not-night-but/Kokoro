@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "Kokoro/Log.h"
+
 #ifdef KO_PLATFORM_WINDOWS
   #include <Windows.h>
 #endif

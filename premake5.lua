@@ -9,6 +9,11 @@ workspace "Kokoro"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Kokoro/vendor/GLFW/include"
+
+include "Kokoro/vendor/GLFW"
+
 project "Kokoro"
   location "Kokoro"
   kind "SharedLib"
@@ -27,7 +32,12 @@ project "Kokoro"
 
   includedirs {
     "%{prj.name}/src",
-    "%{prj.name}/vendor/spdlog/include"
+    "%{prj.name}/vendor/spdlog/include",
+    "%{IncludeDir.GLFW}"
+  }
+
+  links {
+    "GLFW"
   }
 
   filter "system:linux"
@@ -36,6 +46,10 @@ project "Kokoro"
     defines {
       "KO_PLATFORM_LINUX",
       "KO_BUILD_SO"
+    }
+
+    links {
+      "GL"
     }
 
     postbuildcommands {

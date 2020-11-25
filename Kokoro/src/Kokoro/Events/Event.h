@@ -6,7 +6,7 @@
 namespace Kokoro {
 
   // Events are currently blocking, which means that when an event occurs it
-  // immediately gets dispathced and must be dealt with then and there.
+  // immediately gets dispatched and must be dealt with then and there.
   // A better strategy in the future may be to buffer events in event bus
   // and process them during the "event" part of the update stage.
 

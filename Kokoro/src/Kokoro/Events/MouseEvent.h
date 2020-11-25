@@ -71,6 +71,7 @@ namespace Kokoro {
   };
 
   class KOKORO_API MouseButtonReleasedEvent : public MouseButtonEvent {
+   public:
     MouseButtonReleasedEvent(int button)
       : MouseButtonEvent(button) {}
 
@@ -79,5 +80,7 @@ namespace Kokoro {
       ss << "MouseButtonReleasedEvent: " << m_Button;
       return ss.str();
     }
+
+    EVENT_CLASS_TYPE(MouseButtonReleased)
   };
-}
+}  // namespace Kokoro
