@@ -11,8 +11,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "Kokoro/vendor/GLFW/include"
+IncludeDir["Glad"] = "Kokoro/vendor/Glad/include"
 
 include "Kokoro/vendor/GLFW"
+include "Kokoro/vendor/Glad"
 
 project "Kokoro"
   location "Kokoro"
@@ -33,19 +35,22 @@ project "Kokoro"
   includedirs {
     "%{prj.name}/src",
     "%{prj.name}/vendor/spdlog/include",
-    "%{IncludeDir.GLFW}"
+    "%{IncludeDir.GLFW}",
+    "%{IncludeDir.Glad}"
   }
 
   links {
-    "GLFW"
+    "GLFW",
+    "Glad"
   }
 
   filter "system:linux"
-    buildoptions { "-std=c++17", "-g"}
+    buildoptions { "-std=c++17", "-g", "-fPIC"}
 
     defines {
       "KO_PLATFORM_LINUX",
-      "KO_BUILD_SO"
+      "KO_BUILD_SO",
+      "GLFW_INCLUDE_NONE"
     }
 
     links {

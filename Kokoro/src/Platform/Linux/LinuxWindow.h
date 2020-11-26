@@ -1,5 +1,6 @@
 #pragma once
 
+// IDEA(@dsm6069) maybe use SDL instead of GLFW?
 #include <GLFW/glfw3.h>
 #include "Kokoro/Window.h"
 

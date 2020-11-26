@@ -1,9 +1,11 @@
+#include <glad/glad.h>
 #include "kopch.h"
 #include "LinuxWindow.h"
 
+#include "Kokoro/Events/ApplicationEvent.h"
 #include "Kokoro/Events/MouseEvent.h"
 #include "Kokoro/Events/KeyEvent.h"
-#include "Kokoro/Events/ApplicationEvent.h"
+
 
 namespace Kokoro {
 
@@ -40,6 +42,8 @@ namespace Kokoro {
 
     m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
     glfwMakeContextCurrent(m_Window);
+    int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    KO_CORE_ASSERT(status, "Failed to initialize Glad!");
     glfwSetWindowUserPointer(m_Window, &m_Data);
     SetVsync(true);
 

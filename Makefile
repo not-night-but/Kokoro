@@ -10,16 +10,19 @@ endif
 
 ifeq ($(config),debug)
   GLFW_config = debug
+  Glad_config = debug
   Kokoro_config = debug
   Sandbox_config = debug
 
 else ifeq ($(config),release)
   GLFW_config = release
+  Glad_config = release
   Kokoro_config = release
   Sandbox_config = release
 
 else ifeq ($(config),dist)
   GLFW_config = dist
+  Glad_config = dist
   Kokoro_config = dist
   Sandbox_config = dist
 
@@ -27,7 +30,7 @@ else
   $(error "invalid configuration $(config)")
 endif
 
-PROJECTS := GLFW Kokoro Sandbox
+PROJECTS := GLFW Glad Kokoro Sandbox
 
 .PHONY: all clean help $(PROJECTS) 
 
@@ -39,7 +42,13 @@ ifneq (,$(GLFW_config))
 	@${MAKE} --no-print-directory -C Kokoro/vendor/GLFW -f Makefile config=$(GLFW_config)
 endif
 
-Kokoro: GLFW
+Glad:
+ifneq (,$(Glad_config))
+	@echo "==== Building Glad ($(Glad_config)) ===="
+	@${MAKE} --no-print-directory -C Kokoro/vendor/Glad -f Makefile config=$(Glad_config)
+endif
+
+Kokoro: GLFW Glad
 ifneq (,$(Kokoro_config))
 	@echo "==== Building Kokoro ($(Kokoro_config)) ===="
 	@${MAKE} --no-print-directory -C Kokoro -f Makefile config=$(Kokoro_config)
@@ -53,6 +62,7 @@ endif
 
 clean:
 	@${MAKE} --no-print-directory -C Kokoro/vendor/GLFW -f Makefile clean
+	@${MAKE} --no-print-directory -C Kokoro/vendor/Glad -f Makefile clean
 	@${MAKE} --no-print-directory -C Kokoro -f Makefile clean
 	@${MAKE} --no-print-directory -C Sandbox -f Makefile clean
 
@@ -68,6 +78,7 @@ help:
 	@echo "   all (default)"
 	@echo "   clean"
 	@echo "   GLFW"
+	@echo "   Glad"
 	@echo "   Kokoro"
 	@echo "   Sandbox"
 	@echo ""

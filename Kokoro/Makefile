@@ -22,7 +22,7 @@ RESCOMP = windres
 PCH = src/kopch.h
 PCH_PLACEHOLDER = $(OBJDIR)/$(notdir $(PCH))
 GCH = $(PCH_PLACEHOLDER).gch
-INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include
+INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -36,11 +36,11 @@ ifeq ($(config),debug)
 TARGETDIR = ../bin/Debug-linux-x86_64/Kokoro
 TARGET = $(TARGETDIR)/libKokoro.so
 OBJDIR = ../bin-int/Debug-linux-x86_64/Kokoro
-DEFINES += -DKO_PLATFORM_LINUX -DKO_BUILD_SO -DKO_DEBUG
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -g
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -g
-LIBS += vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a -lGL
-LDDEPS += vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a
+DEFINES += -DKO_PLATFORM_LINUX -DKO_BUILD_SO -DGLFW_INCLUDE_NONE -DKO_DEBUG
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -g -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -g -fPIC
+LIBS += vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Debug-linux-x86_64/Glad/libGlad.a -lGL
+LDDEPS += vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Debug-linux-x86_64/Glad/libGlad.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libKokoro.so
 define POSTBUILDCMDS
 	@echo Running postbuild commands
@@ -51,11 +51,11 @@ else ifeq ($(config),release)
 TARGETDIR = ../bin/Release-linux-x86_64/Kokoro
 TARGET = $(TARGETDIR)/libKokoro.so
 OBJDIR = ../bin-int/Release-linux-x86_64/Kokoro
-DEFINES += -DKO_PLATFORM_LINUX -DKO_BUILD_SO -DKO_RELEASE
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17 -g
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17 -g
-LIBS += vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a -lGL
-LDDEPS += vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a
+DEFINES += -DKO_PLATFORM_LINUX -DKO_BUILD_SO -DGLFW_INCLUDE_NONE -DKO_RELEASE
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17 -g -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17 -g -fPIC
+LIBS += vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Release-linux-x86_64/Glad/libGlad.a -lGL
+LDDEPS += vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Release-linux-x86_64/Glad/libGlad.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libKokoro.so -s
 define POSTBUILDCMDS
 	@echo Running postbuild commands
@@ -66,11 +66,11 @@ else ifeq ($(config),dist)
 TARGETDIR = ../bin/Dist-linux-x86_64/Kokoro
 TARGET = $(TARGETDIR)/libKokoro.so
 OBJDIR = ../bin-int/Dist-linux-x86_64/Kokoro
-DEFINES += -DKO_PLATFORM_LINUX -DKO_BUILD_SO -DKO_DIST
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -g
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -g
-LIBS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a -lGL
-LDDEPS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a
+DEFINES += -DKO_PLATFORM_LINUX -DKO_BUILD_SO -DGLFW_INCLUDE_NONE -DKO_DIST
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -g -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -g -fPIC
+LIBS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Dist-linux-x86_64/Glad/libGlad.a -lGL
+LDDEPS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Dist-linux-x86_64/Glad/libGlad.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libKokoro.so
 define POSTBUILDCMDS
 	@echo Running postbuild commands
@@ -90,9 +90,11 @@ GENERATED :=
 OBJECTS :=
 
 GENERATED += $(OBJDIR)/Application.o
+GENERATED += $(OBJDIR)/LayerStack.o
 GENERATED += $(OBJDIR)/LinuxWindow.o
 GENERATED += $(OBJDIR)/Log.o
 OBJECTS += $(OBJDIR)/Application.o
+OBJECTS += $(OBJDIR)/LayerStack.o
 OBJECTS += $(OBJDIR)/LinuxWindow.o
 OBJECTS += $(OBJDIR)/Log.o
 
@@ -159,6 +161,9 @@ endif
 # #############################################
 
 $(OBJDIR)/Application.o: src/Kokoro/Application.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/LayerStack.o: src/Kokoro/LayerStack.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Log.o: src/Kokoro/Log.cpp
