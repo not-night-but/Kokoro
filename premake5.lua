@@ -12,9 +12,11 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "Kokoro/vendor/GLFW/include"
 IncludeDir["Glad"] = "Kokoro/vendor/Glad/include"
+IncludeDir["ImGui"] = "Kokoro/vendor/imgui"
 
 include "Kokoro/vendor/GLFW"
 include "Kokoro/vendor/Glad"
+include "Kokoro/vendor/imgui"
 
 project "Kokoro"
   location "Kokoro"
@@ -36,12 +38,14 @@ project "Kokoro"
     "%{prj.name}/src",
     "%{prj.name}/vendor/spdlog/include",
     "%{IncludeDir.GLFW}",
-    "%{IncludeDir.Glad}"
+    "%{IncludeDir.Glad}",
+    "%{IncludeDir.ImGui}"
   }
 
   links {
     "GLFW",
-    "Glad"
+    "Glad",
+    "ImGui"
   }
 
   filter "system:linux"
