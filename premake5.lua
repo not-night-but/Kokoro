@@ -1,5 +1,6 @@
 workspace "Kokoro"
   architecture "x64"
+  startproject "Sandbox"
 
   configurations {
     "Debug",
@@ -22,6 +23,7 @@ project "Kokoro"
   location "Kokoro"
   kind "SharedLib"
   language "C++"
+  staticruntime "off"
 
   targetdir ("bin/" .. outputdir .. "/%{prj.name}")
   objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -67,15 +69,18 @@ project "Kokoro"
 
   filter "configurations:Debug"
     defines "KO_DEBUG"
+    runtime "Debug"
     symbols "On"
 
   filter "configurations:Release"
     defines "KO_RELEASE"
+    runtime "Release"
     optimize "On"
 
   filter "configurations:Dist"
     defines "KO_DIST"
-    symbols "On"
+    runtime "Release"
+    optimize "On"
 
 project "Sandbox"
   location "Sandbox"
@@ -114,12 +119,15 @@ project "Sandbox"
 
   filter "configurations:Debug"
     defines "KO_DEBUG"
+    runtime "Debug"
     symbols "On"
 
   filter "configurations:Release"
     defines "KO_RELEASE"
+    runtime "Release"
     optimize "On"
 
   filter "configurations:Dist"
     defines "KO_DIST"
-    symbols "On"
+    runtime "Release"
+    optimize "On"

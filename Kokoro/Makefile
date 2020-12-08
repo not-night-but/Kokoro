@@ -67,11 +67,11 @@ TARGETDIR = ../bin/Dist-linux-x86_64/Kokoro
 TARGET = $(TARGETDIR)/libKokoro.so
 OBJDIR = ../bin-int/Dist-linux-x86_64/Kokoro
 DEFINES += -DKO_PLATFORM_LINUX -DKO_BUILD_SO -DGLFW_INCLUDE_NONE -DKO_DIST
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -g -fPIC
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -g -fPIC
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17 -g -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17 -g -fPIC
 LIBS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Dist-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86_64/ImGui/libImGui.a -lGL
 LDDEPS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Dist-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86_64/ImGui/libImGui.a
-ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libKokoro.so
+ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libKokoro.so -s
 define POSTBUILDCMDS
 	@echo Running postbuild commands
 	cp -rf ../bin/Dist-linux-x86_64/Kokoro/libKokoro.so "../bin/Dist-linux-x86_64/Sandbox/"

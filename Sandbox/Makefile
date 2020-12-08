@@ -58,11 +58,11 @@ TARGETDIR = ../bin/Dist-linux-x86_64/Sandbox
 TARGET = $(TARGETDIR)/Sandbox
 OBJDIR = ../bin-int/Dist-linux-x86_64/Sandbox
 DEFINES += -DKO_PLATFORM_LINUX -DKO_DIST
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17 -g `pkg-config --cflags sdl2`
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17 -g `pkg-config --cflags sdl2`
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -g `pkg-config --cflags sdl2`
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -g `pkg-config --cflags sdl2`
 LIBS += ../bin/Dist-linux-x86_64/Kokoro/libKokoro.so
 LDDEPS += ../bin/Dist-linux-x86_64/Kokoro/libKokoro.so
-ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -Wl,-rpath,'$$ORIGIN/../Kokoro' -m64 `pkg-config --libs sdl2` -lSDL2_image -lm
+ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -Wl,-rpath,'$$ORIGIN/../Kokoro' -m64 -s `pkg-config --libs sdl2` -lSDL2_image -lm
 
 endif
 
