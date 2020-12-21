@@ -89,6 +89,7 @@ namespace Kokoro {
   bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e) {
     ImGuiIO& io = ImGui::GetIO();
     io.MouseDown[e.GetMouseButton()] = true;
+
     return false;
   }
 
