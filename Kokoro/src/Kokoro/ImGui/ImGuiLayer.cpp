@@ -86,6 +86,7 @@ namespace Kokoro {
     dispatcher.Dispatch<WindowResizeEvent>(KO_BIND_EVENT_FN(ImGuiLayer::OnWindowResizeEvent));
   }
 
+// BUG(@dsm6069) The mouse events aren't affecting ImGui
   bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e) {
     ImGuiIO& io = ImGui::GetIO();
     io.MouseDown[e.GetMouseButton()] = true;
