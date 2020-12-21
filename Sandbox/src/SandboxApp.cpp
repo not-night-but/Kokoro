@@ -6,11 +6,11 @@ class ExampleLayer : public Kokoro::Layer {
   ExampleLayer() : Layer("Example") {}
 
   void OnUpdate() override {
-    KO_INFO("ExampleLayer::Update");
+    if (Kokoro::Input::IsKeyPressed(KO_KEY_TAB))
+      KO_INFO("Tab Key is Pressed!!");
   }
 
   void OnEvent(Kokoro::Event& event) override {
-    KO_TRACE("{0}", event);
   }
 };
 

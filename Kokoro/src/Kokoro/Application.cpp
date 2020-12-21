@@ -28,9 +28,6 @@ namespace Kokoro {
         layer->OnUpdate();
       }
 
-      auto [x, y] = Input::GetMousePosition();
-      KO_CORE_TRACE("{0}, {1}", x, y);
-
       m_Window->OnUpdate();
     }
   }
@@ -38,8 +35,6 @@ namespace Kokoro {
   void Application::OnEvent(Event& e) {
     EventDispatcher dispatcher(e);
     dispatcher.Dispatch<WindowCloseEvent>(KO_BIND_EVENT_FN(Application::OnWindowClose));
-
-    KO_CORE_TRACE("{0}", e);
 
     for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); ) {
       (*--it)->OnEvent(e);
