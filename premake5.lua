@@ -105,7 +105,7 @@ project "Sandbox"
   }
 
   filter "system:linux"
-    buildoptions { "-std=c++17", "-g", "`pkg-config --cflags sdl2`"}
+    buildoptions { "-std=c++17", "-g", "`pkg-config --cflags sdl2`" }
 
     linkoptions {
       "`pkg-config --libs sdl2`",

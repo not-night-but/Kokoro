@@ -2,6 +2,8 @@
 #include "kopch.h"
 #include "Application.h"
 
+#include "Input.h"
+
 namespace Kokoro {
 
   Application* Application::s_Instance = nullptr;
@@ -25,6 +27,9 @@ namespace Kokoro {
       for (auto layer : m_LayerStack) {
         layer->OnUpdate();
       }
+
+      auto [x, y] = Input::GetMousePosition();
+      KO_CORE_TRACE("{0}, {1}", x, y);
 
       m_Window->OnUpdate();
     }
