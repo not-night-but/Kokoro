@@ -90,15 +90,15 @@ GENERATED :=
 OBJECTS :=
 
 GENERATED += $(OBJDIR)/Application.o
+GENERATED += $(OBJDIR)/ImGuiBuild.o
 GENERATED += $(OBJDIR)/ImGuiLayer.o
-GENERATED += $(OBJDIR)/ImGuiOpenGLRenderer.o
 GENERATED += $(OBJDIR)/LayerStack.o
 GENERATED += $(OBJDIR)/LinuxInput.o
 GENERATED += $(OBJDIR)/LinuxWindow.o
 GENERATED += $(OBJDIR)/Log.o
 OBJECTS += $(OBJDIR)/Application.o
+OBJECTS += $(OBJDIR)/ImGuiBuild.o
 OBJECTS += $(OBJDIR)/ImGuiLayer.o
-OBJECTS += $(OBJDIR)/ImGuiOpenGLRenderer.o
 OBJECTS += $(OBJDIR)/LayerStack.o
 OBJECTS += $(OBJDIR)/LinuxInput.o
 OBJECTS += $(OBJDIR)/LinuxWindow.o
@@ -169,6 +169,9 @@ endif
 $(OBJDIR)/Application.o: src/Kokoro/Application.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/ImGuiBuild.o: src/Kokoro/ImGui/ImGuiBuild.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/ImGuiLayer.o: src/Kokoro/ImGui/ImGuiLayer.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -182,9 +185,6 @@ $(OBJDIR)/LinuxInput.o: src/Platform/Linux/LinuxInput.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/LinuxWindow.o: src/Platform/Linux/LinuxWindow.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/ImGuiOpenGLRenderer.o: src/Platform/OpenGL/ImGuiOpenGLRenderer.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

@@ -25,7 +25,6 @@ class Sandbox : public Kokoro::Application {
  public:
   Sandbox() {
     PushLayer(new ExampleLayer());
-    PushLayer(new Kokoro::ImGuiLayer());
   }
   ~Sandbox() {}
 };
