@@ -7,3 +7,6 @@
 [submodule "Kokoro/vendor/imgui"]
 	path = Kokoro/vendor/imgui
 	url = https://github.com/thecherno/imgui
+[submodule "Kokoro/vendor/glm"]
+	path = Kokoro/vendor/glm
+	url = https://github.com/g-truc/glm.git

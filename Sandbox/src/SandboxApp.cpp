@@ -7,10 +7,17 @@ class ExampleLayer : public Kokoro::Layer {
 
   void OnUpdate() override {
     if (Kokoro::Input::IsKeyPressed(KO_KEY_TAB))
-      KO_INFO("Tab Key is Pressed!!");
+      KO_INFO("Tab Key is Pressed (poll)!!");
   }
 
   void OnEvent(Kokoro::Event& event) override {
+    KO_TRACE("{0}", event);
+    if (event.GetEventType() == Kokoro::EventType::KeyPressed) {
+      Kokoro::KeyPressedEvent& e = (Kokoro::KeyPressedEvent&)event;
+      if (e.GetKeyCode() == KO_KEY_TAB)
+        KO_TRACE("Tab key is pressed (event)!");
+      KO_TRACE("{0}", (char)e.GetKeyCode());
+    }
   }
 };
 

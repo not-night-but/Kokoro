@@ -19,7 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -I../Kokoro/vendor/spdlog/include -I../Kokoro/src
+INCLUDES += -I../Kokoro/vendor/spdlog/include -I../Kokoro/src -I../Kokoro/vendor/glm
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)

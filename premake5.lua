@@ -14,6 +14,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Kokoro/vendor/GLFW/include"
 IncludeDir["Glad"] = "Kokoro/vendor/Glad/include"
 IncludeDir["ImGui"] = "Kokoro/vendor/imgui"
+IncludeDir["glm"] = "Kokoro/vendor/glm"
 
 include "Kokoro/vendor/GLFW"
 include "Kokoro/vendor/Glad"
@@ -33,7 +34,9 @@ project "Kokoro"
 
   files {
     "%{prj.name}/src/**.h",
-    "%{prj.name}/src/**.cpp"
+    "%{prj.name}/src/**.cpp",
+    "%{prj.name}/vendor/glm/glm/**.hpp",
+    "%{prj.name}/vendor/glm/glm/**.inl"
   }
 
   includedirs {
@@ -41,7 +44,8 @@ project "Kokoro"
     "%{prj.name}/vendor/spdlog/include",
     "%{IncludeDir.GLFW}",
     "%{IncludeDir.Glad}",
-    "%{IncludeDir.ImGui}"
+    "%{IncludeDir.ImGui}",
+    "%{IncludeDir.glm}"
   }
 
   links {
@@ -97,7 +101,8 @@ project "Sandbox"
 
   includedirs {
     "Kokoro/vendor/spdlog/include",
-    "Kokoro/src"
+    "Kokoro/src",
+    "%{IncludeDir.glm}"
   }
 
   links {
