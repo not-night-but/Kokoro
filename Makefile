@@ -63,7 +63,7 @@ ifneq (,$(Kokoro_config))
 	@${MAKE} --no-print-directory -C Kokoro -f Makefile config=$(Kokoro_config)
 endif
 
-Sandbox: Kokoro
+Sandbox: Kokoro GLFW Glad ImGui
 ifneq (,$(Sandbox_config))
 	@echo "==== Building Sandbox ($(Sandbox_config)) ===="
 	@${MAKE} --no-print-directory -C Sandbox -f Makefile config=$(Sandbox_config)

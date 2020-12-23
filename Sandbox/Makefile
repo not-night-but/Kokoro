@@ -19,7 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -I../Kokoro/vendor/spdlog/include -I../Kokoro/src -I../Kokoro/vendor/glm
+INCLUDES += -I../Kokoro/vendor/spdlog/include -I../Kokoro/src -I../Kokoro/vendor -I../Kokoro/vendor/glm
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -36,33 +36,33 @@ TARGETDIR = ../bin/Debug-linux-x86_64/Sandbox
 TARGET = $(TARGETDIR)/Sandbox
 OBJDIR = ../bin-int/Debug-linux-x86_64/Sandbox
 DEFINES += -DKO_PLATFORM_LINUX -DKO_DEBUG
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17 -g `pkg-config --cflags sdl2`
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17 -g `pkg-config --cflags sdl2`
-LIBS += ../bin/Debug-linux-x86_64/Kokoro/libKokoro.so
-LDDEPS += ../bin/Debug-linux-x86_64/Kokoro/libKokoro.so
-ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -Wl,-rpath,'$$ORIGIN/../Kokoro' -m64 `pkg-config --libs sdl2` -lSDL2_image -lm
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17 -g
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17 -std=c++17 -g
+LIBS += ../bin/Debug-linux-x86_64/Kokoro/libKokoro.a ../Kokoro/vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a ../Kokoro/vendor/Glad/bin/Debug-linux-x86_64/Glad/libGlad.a ../Kokoro/vendor/imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a -lXrandr -lXi -lGLU -lGL -lX11 -ldl -lpthread -lstdc++fs
+LDDEPS += ../bin/Debug-linux-x86_64/Kokoro/libKokoro.a ../Kokoro/vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a ../Kokoro/vendor/Glad/bin/Debug-linux-x86_64/Glad/libGlad.a ../Kokoro/vendor/imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a
+ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release)
 TARGETDIR = ../bin/Release-linux-x86_64/Sandbox
 TARGET = $(TARGETDIR)/Sandbox
 OBJDIR = ../bin-int/Release-linux-x86_64/Sandbox
 DEFINES += -DKO_PLATFORM_LINUX -DKO_RELEASE
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -g `pkg-config --cflags sdl2`
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -g `pkg-config --cflags sdl2`
-LIBS += ../bin/Release-linux-x86_64/Kokoro/libKokoro.so
-LDDEPS += ../bin/Release-linux-x86_64/Kokoro/libKokoro.so
-ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -Wl,-rpath,'$$ORIGIN/../Kokoro' -m64 -s `pkg-config --libs sdl2` -lSDL2_image -lm
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -g
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -std=c++17 -g
+LIBS += ../bin/Release-linux-x86_64/Kokoro/libKokoro.a ../Kokoro/vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a ../Kokoro/vendor/Glad/bin/Release-linux-x86_64/Glad/libGlad.a ../Kokoro/vendor/imgui/bin/Release-linux-x86_64/ImGui/libImGui.a -lXrandr -lXi -lGLU -lGL -lX11 -ldl -lpthread -lstdc++fs
+LDDEPS += ../bin/Release-linux-x86_64/Kokoro/libKokoro.a ../Kokoro/vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a ../Kokoro/vendor/Glad/bin/Release-linux-x86_64/Glad/libGlad.a ../Kokoro/vendor/imgui/bin/Release-linux-x86_64/ImGui/libImGui.a
+ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),dist)
 TARGETDIR = ../bin/Dist-linux-x86_64/Sandbox
 TARGET = $(TARGETDIR)/Sandbox
 OBJDIR = ../bin-int/Dist-linux-x86_64/Sandbox
 DEFINES += -DKO_PLATFORM_LINUX -DKO_DIST
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -g `pkg-config --cflags sdl2`
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -g `pkg-config --cflags sdl2`
-LIBS += ../bin/Dist-linux-x86_64/Kokoro/libKokoro.so
-LDDEPS += ../bin/Dist-linux-x86_64/Kokoro/libKokoro.so
-ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -Wl,-rpath,'$$ORIGIN/../Kokoro' -m64 -s `pkg-config --libs sdl2` -lSDL2_image -lm
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -g
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -std=c++17 -g
+LIBS += ../bin/Dist-linux-x86_64/Kokoro/libKokoro.a ../Kokoro/vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a ../Kokoro/vendor/Glad/bin/Dist-linux-x86_64/Glad/libGlad.a ../Kokoro/vendor/imgui/bin/Dist-linux-x86_64/ImGui/libImGui.a -lXrandr -lXi -lGLU -lGL -lX11 -ldl -lpthread -lstdc++fs
+LDDEPS += ../bin/Dist-linux-x86_64/Kokoro/libKokoro.a ../Kokoro/vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a ../Kokoro/vendor/Glad/bin/Dist-linux-x86_64/Glad/libGlad.a ../Kokoro/vendor/imgui/bin/Dist-linux-x86_64/ImGui/libImGui.a
+ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 endif
 

@@ -1,12 +1,12 @@
 workspace "Kokoro"
-  architecture "x64"
-  startproject "Sandbox"
+	architecture "x64"
+	startproject "Sandbox"
 
-  configurations {
-    "Debug",
-    "Release",
-    "Dist"
-  }
+	configurations {
+		"Debug",
+		"Release",
+		"Dist"
+	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
@@ -21,118 +21,132 @@ include "Kokoro/vendor/Glad"
 include "Kokoro/vendor/imgui"
 
 project "Kokoro"
-  location "Kokoro"
-  kind "SharedLib"
-  language "C++"
-  staticruntime "off"
+	location "Kokoro"
+	kind "StaticLib"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
-  targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-  objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-  pchheader "kopch.h"
-  --if using visual studio at some point, add a pchsource
+	pchheader "kopch.h"
+	--if using visual studio at some point, add a pchsource
 
-  files {
-    "%{prj.name}/src/**.h",
-    "%{prj.name}/src/**.cpp",
-    "%{prj.name}/vendor/glm/glm/**.hpp",
-    "%{prj.name}/vendor/glm/glm/**.inl"
-  }
+	files {
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
+	}
 
-  includedirs {
-    "%{prj.name}/src",
-    "%{prj.name}/vendor/spdlog/include",
-    "%{IncludeDir.GLFW}",
-    "%{IncludeDir.Glad}",
-    "%{IncludeDir.ImGui}",
-    "%{IncludeDir.glm}"
-  }
+	includedirs {
+		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
+	}
 
-  links {
-    "GLFW",
-    "Glad",
-    "ImGui"
-  }
+	links {
+		"GLFW",
+		"Glad",
+		"ImGui"
+	}
 
-  filter "system:linux"
-    buildoptions { "-std=c++17", "-g", "-fPIC"}
+	filter "system:linux"
+		defines {
+			"KO_PLATFORM_LINUX",
+			"GLFW_INCLUDE_NONE"
+		}
 
-    defines {
-      "KO_PLATFORM_LINUX",
-      "KO_BUILD_SO",
-      "GLFW_INCLUDE_NONE"
-    }
+		links {
+			"GL"
+		}
 
-    links {
-      "GL"
-    }
+	filter "configurations:Debug"
+		defines "KO_DEBUG"
+		runtime "Debug"
+		symbols "on"
 
-    postbuildcommands {
-      ("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
-    }
+	filter { "configurations:Debug", "system:linux" }
+		buildoptions { "-std=c++17", "-g", "-fPIC"}
 
-  filter "configurations:Debug"
-    defines "KO_DEBUG"
-    runtime "Debug"
-    symbols "On"
+	filter "configurations:Release"
+		defines "KO_RELEASE"
+		runtime "Release"
+		optimize "on"
 
-  filter "configurations:Release"
-    defines "KO_RELEASE"
-    runtime "Release"
-    optimize "On"
+	filter { "configurations:Release", "system:linux" }
+		buildoptions { "-std=c++17", "-fPIC"}
 
-  filter "configurations:Dist"
-    defines "KO_DIST"
-    runtime "Release"
-    optimize "On"
+	filter "configurations:Dist"
+		defines "KO_DIST"
+		runtime "Release"
+		optimize "on"
+
+	filter { "configurations:Dist", "system:linux" }
+		buildoptions { "-std=c++17", "-fPIC"}
 
 project "Sandbox"
-  location "Sandbox"
-  kind "ConsoleApp"
-  language "C++"
+	location "Sandbox"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
-  targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-  objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-  files {
-    "%{prj.name}/src/**.h",
-    "%{prj.name}/src/**.cpp"
-  }
+	files {
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
 
-  includedirs {
-    "Kokoro/vendor/spdlog/include",
-    "Kokoro/src",
-    "%{IncludeDir.glm}"
-  }
+	includedirs {
+		"Kokoro/vendor/spdlog/include",
+		"Kokoro/src",
+		"Kokoro/vendor",
+		"%{IncludeDir.glm}"
+	}
 
-  links {
-    "Kokoro"
-  }
+	links {
+		"Kokoro"
+	}
 
-  filter "system:linux"
-    buildoptions { "-std=c++17", "-g", "`pkg-config --cflags sdl2`" }
+	filter "system:linux"
+		buildoptions { "-std=c++17", "-g" }
 
-    linkoptions {
-      "`pkg-config --libs sdl2`",
-      "-lSDL2_image",
-      "-lm"
-    }
+		links {
+			"GLFW",
+			"Glad",
+			"ImGui",
+			"Xrandr",
+			"Xi",
+			"GLU",
+			"GL",
+			"X11",
+			"dl",
+			"pthread",
+			"stdc++fs",	--GCC versions 5.3 through 8.x need stdc++fs for std::filesystem
+		}
 
-    defines {
-      "KO_PLATFORM_LINUX"
-    }
+		defines {
+			"KO_PLATFORM_LINUX"
+		}
 
-  filter "configurations:Debug"
-    defines "KO_DEBUG"
-    runtime "Debug"
-    symbols "On"
+	filter "configurations:Debug"
+		defines "KO_DEBUG"
+		runtime "Debug"
+		symbols "on"
 
-  filter "configurations:Release"
-    defines "KO_RELEASE"
-    runtime "Release"
-    optimize "On"
+	filter "configurations:Release"
+		defines "KO_RELEASE"
+		runtime "Release"
+		optimize "on"
 
-  filter "configurations:Dist"
-    defines "KO_DIST"
-    runtime "Release"
-    optimize "On"
+	filter "configurations:Dist"
+		defines "KO_DIST"
+		runtime "Release"
+		optimize "on"

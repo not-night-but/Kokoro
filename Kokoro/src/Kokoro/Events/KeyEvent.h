@@ -4,7 +4,7 @@
 
 namespace Kokoro {
 
-  class KOKORO_API KeyEvent : public Event {
+  class KeyEvent : public Event {
    public:
     inline int GetKeyCode() const { return m_KeyCode; }
 
@@ -15,7 +15,7 @@ namespace Kokoro {
     int m_KeyCode;
   };
 
-  class KOKORO_API KeyPressedEvent : public KeyEvent {
+  class KeyPressedEvent : public KeyEvent {
    public:
     KeyPressedEvent(int keycode, int repeatCount)
       : KeyEvent(keycode), m_RepeatCount(repeatCount) {}
@@ -33,7 +33,7 @@ namespace Kokoro {
     int m_RepeatCount;
   };
 
-  class KOKORO_API KeyReleasedEvent : public KeyEvent {
+  class KeyReleasedEvent : public KeyEvent {
    public:
     KeyReleasedEvent(int keycode) : KeyEvent(keycode) {} // NOLINT
 
@@ -46,7 +46,7 @@ namespace Kokoro {
     EVENT_CLASS_TYPE(KeyReleased)
   };
 
-  class KOKORO_API KeyTypedEvent : public KeyEvent {
+  class KeyTypedEvent : public KeyEvent {
    public:
     KeyTypedEvent(int keycode)
       : KeyEvent(keycode) {}

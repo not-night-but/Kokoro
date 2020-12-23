@@ -26,56 +26,46 @@ INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/in
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 define PREBUILDCMDS
 endef
 define PRELINKCMDS
 endef
+define POSTBUILDCMDS
+endef
 
 ifeq ($(config),debug)
 TARGETDIR = ../bin/Debug-linux-x86_64/Kokoro
-TARGET = $(TARGETDIR)/libKokoro.so
+TARGET = $(TARGETDIR)/libKokoro.a
 OBJDIR = ../bin-int/Debug-linux-x86_64/Kokoro
-DEFINES += -DKO_PLATFORM_LINUX -DKO_BUILD_SO -DGLFW_INCLUDE_NONE -DKO_DEBUG
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -g -fPIC
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -g -fPIC
+DEFINES += -DKO_PLATFORM_LINUX -DGLFW_INCLUDE_NONE -DKO_DEBUG
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17 -g -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17 -std=c++17 -g -fPIC
 LIBS += vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Debug-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a -lGL
 LDDEPS += vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Debug-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a
-ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libKokoro.so
-define POSTBUILDCMDS
-	@echo Running postbuild commands
-	cp -rf ../bin/Debug-linux-x86_64/Kokoro/libKokoro.so "../bin/Debug-linux-x86_64/Sandbox/"
-endef
+ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release)
 TARGETDIR = ../bin/Release-linux-x86_64/Kokoro
-TARGET = $(TARGETDIR)/libKokoro.so
+TARGET = $(TARGETDIR)/libKokoro.a
 OBJDIR = ../bin-int/Release-linux-x86_64/Kokoro
-DEFINES += -DKO_PLATFORM_LINUX -DKO_BUILD_SO -DGLFW_INCLUDE_NONE -DKO_RELEASE
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17 -g -fPIC
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17 -g -fPIC
+DEFINES += -DKO_PLATFORM_LINUX -DGLFW_INCLUDE_NONE -DKO_RELEASE
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -std=c++17 -fPIC
 LIBS += vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Release-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Release-linux-x86_64/ImGui/libImGui.a -lGL
 LDDEPS += vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Release-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Release-linux-x86_64/ImGui/libImGui.a
-ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libKokoro.so -s
-define POSTBUILDCMDS
-	@echo Running postbuild commands
-	cp -rf ../bin/Release-linux-x86_64/Kokoro/libKokoro.so "../bin/Release-linux-x86_64/Sandbox/"
-endef
+ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),dist)
 TARGETDIR = ../bin/Dist-linux-x86_64/Kokoro
-TARGET = $(TARGETDIR)/libKokoro.so
+TARGET = $(TARGETDIR)/libKokoro.a
 OBJDIR = ../bin-int/Dist-linux-x86_64/Kokoro
-DEFINES += -DKO_PLATFORM_LINUX -DKO_BUILD_SO -DGLFW_INCLUDE_NONE -DKO_DIST
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17 -g -fPIC
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17 -g -fPIC
+DEFINES += -DKO_PLATFORM_LINUX -DGLFW_INCLUDE_NONE -DKO_DIST
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17 -std=c++17 -fPIC
 LIBS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Dist-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86_64/ImGui/libImGui.a -lGL
 LDDEPS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Dist-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86_64/ImGui/libImGui.a
-ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libKokoro.so -s
-define POSTBUILDCMDS
-	@echo Running postbuild commands
-	cp -rf ../bin/Dist-linux-x86_64/Kokoro/libKokoro.so "../bin/Dist-linux-x86_64/Sandbox/"
-endef
+ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 endif
 
