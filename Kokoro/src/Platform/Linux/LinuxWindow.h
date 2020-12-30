@@ -1,9 +1,10 @@
 #pragma once
 
 // IDEA(@dsm6069) maybe use SDL instead of GLFW?
-#include <GLFW/glfw3.h>
 #include "Kokoro/Window.h"
+#include "Kokoro/Renderer/GraphicsContext.h"
 
+#include <GLFW/glfw3.h>
 
 namespace Kokoro {
 
@@ -29,6 +30,7 @@ namespace Kokoro {
     virtual void Shutdown();
 
     GLFWwindow* m_Window;
+    GraphicsContext* m_Context;
 
     struct WindowData {
       std::string Title;

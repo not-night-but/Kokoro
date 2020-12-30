@@ -86,6 +86,7 @@ GENERATED += $(OBJDIR)/LayerStack.o
 GENERATED += $(OBJDIR)/LinuxInput.o
 GENERATED += $(OBJDIR)/LinuxWindow.o
 GENERATED += $(OBJDIR)/Log.o
+GENERATED += $(OBJDIR)/OpenGLContext.o
 OBJECTS += $(OBJDIR)/Application.o
 OBJECTS += $(OBJDIR)/ImGuiBuild.o
 OBJECTS += $(OBJDIR)/ImGuiLayer.o
@@ -93,6 +94,7 @@ OBJECTS += $(OBJDIR)/LayerStack.o
 OBJECTS += $(OBJDIR)/LinuxInput.o
 OBJECTS += $(OBJDIR)/LinuxWindow.o
 OBJECTS += $(OBJDIR)/Log.o
+OBJECTS += $(OBJDIR)/OpenGLContext.o
 
 # Rules
 # #############################################
@@ -175,6 +177,9 @@ $(OBJDIR)/LinuxInput.o: src/Platform/Linux/LinuxInput.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/LinuxWindow.o: src/Platform/Linux/LinuxWindow.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/OpenGLContext.o: src/Platform/OpenGL/OpenGLContext.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 
