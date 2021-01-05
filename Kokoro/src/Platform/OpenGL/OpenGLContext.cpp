@@ -14,17 +14,14 @@ namespace Kokoro {
     glfwMakeContextCurrent(m_WindowHandle);
     int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     KO_CORE_ASSERT(status, "Failed to initialize Glad!");
+
+    KO_CORE_INFO("OpenGL Info:");
+    KO_CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
+    KO_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
+    KO_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
   }
 
   void OpenGLContext::SwapBuffers() {
-    glBegin(GL_TRIANGLES);
-
-    glVertex2f(-0.5f, -0.5f);
-    glVertex2f( 0.5f, -0.5f);
-    glVertex2f( 0.0f,  0.5f);
-
-    glEnd();
-
     glfwSwapBuffers(m_WindowHandle);
   }
 
