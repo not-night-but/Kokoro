@@ -35,9 +35,11 @@ endif
 
 PROJECTS := GLFW Glad ImGui Kokoro Sandbox
 
-.PHONY: all clean help $(PROJECTS) 
+.PHONY: all clean help $(PROJECTS) Dependencies
 
 all: $(PROJECTS)
+
+Dependencies: GLFW Glad ImGui
 
 GLFW:
 ifneq (,$(GLFW_config))

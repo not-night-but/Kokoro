@@ -9,6 +9,8 @@
 
 #include "Kokoro/ImGui/ImGuiLayer.h"
 
+#include "Kokoro/Renderer/Shader.h"
+
 namespace Kokoro {
 
   class Application {
@@ -34,6 +36,7 @@ namespace Kokoro {
     LayerStack m_LayerStack;
 
     unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+    std::unique_ptr<Shader> m_Shader;
 
     static Application* s_Instance;
   };
